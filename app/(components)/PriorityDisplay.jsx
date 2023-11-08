@@ -3,7 +3,7 @@ import React from 'react'
 import { faFire } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-const PreiorityDisplay = () => {
+const PriorityDisplay = () => {
     return (
         <div className='flex justify-start align-baseline'>
             <FontAwesomeIcon icon={faFire} className='text-red-400'/>
@@ -15,4 +15,4 @@ const PreiorityDisplay = () => {
     )
 }
 
-export default PreiorityDisplay;
+export default PriorityDisplay;
