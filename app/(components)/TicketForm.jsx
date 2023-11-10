@@ -21,7 +21,6 @@ const TicketForm = () => {
         const value = e.target.value;
         const name = e.target.name;
 
-
         setFormData((prevState) => ({
             ...prevState,
             [name]: value
@@ -34,7 +33,9 @@ const TicketForm = () => {
         const res = await fetch("/api/Tickets",{
             method : "POST",
             body: JSON.stringify({formData}),
-            "content-type": "application/json"
+            headers : {
+                "Content-type" : 'application/json'
+            },
         });
 
         if(!res.ok) {
