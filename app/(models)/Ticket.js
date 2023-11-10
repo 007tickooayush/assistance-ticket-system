@@ -11,6 +11,7 @@ const ticketSchema = new Schema(
     category: { type: String },
     progress: { type: Number },
     active: { type: Boolean },
+    status : {type: String}
   },
   { timestamps: true }
 );

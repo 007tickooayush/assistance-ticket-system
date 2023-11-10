@@ -5,6 +5,7 @@ export async function POST(req,res) {
 	try {
 		const body = await req.json();
 		const ticketData = body.formData;
+		console.log('ticketData :>> ', ticketData);
 		await Ticket.create(ticketData);
     	return NextResponse.json({ message: "Ticket created" }, { status: 201 });
   	} catch (error) {

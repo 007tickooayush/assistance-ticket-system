@@ -14,14 +14,6 @@ const getTickets = async () => {
 };
 
 // const Dashboard = async () => {
-//     const {tickets} = await getTickets();
-
-//     const uniqueCategories = [
-//         ...new Set(tickets?.map(({category}) => category))
-//     ];
-
-//     console.log('uniqueCategories :>> ', uniqueCategories);
-
 //     return <div className="p-5">
 //       <div className="lg:grid grid-cols-2 xl:grid-cols-4">
 //           <TicketCard />
