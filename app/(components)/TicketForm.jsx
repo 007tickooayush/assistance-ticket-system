@@ -3,8 +3,9 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 
-const TicketForm = () => {
+const TicketForm = ({ticket}) => {
     const router = useRouter();
+    const EDITMODE = ticket._id === "new" ? false : true;
 
     const startingTicketData = {
         title: '',
@@ -14,6 +15,17 @@ const TicketForm = () => {
         status: "not started",
         category: "hardware problem",
     };
+
+    if(EDITMODE){
+        // startingTicketData["title"] = ticket.title;
+        // startingTicketData["description"] = ticket.description;
+        // startingTicketData["priority"] = ticket.priority;
+        // startingTicketData["progress"] = ticket.progress;
+        // startingTicketData["status"] = ticket.status;
+        // startingTicketData["category"] = ticket.category;
+
+        Object.assign(startingTicketData,ticket);
+    }
 
     const [formData, setFormData] = useState(startingTicketData);
 
@@ -30,16 +42,30 @@ const TicketForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await fetch("/api/Tickets",{
-            method : "POST",
-            body: JSON.stringify({formData}),
-            headers : {
-                "Content-type" : 'application/json'
-            },
-        });
-
-        if(!res.ok) {
-            throw new Error("Error Occured while submitting");
+        if(EDITMODE){
+            const res = await fetch(`/api/Tickets/${ticket._id}`,{
+                method : "PUT",
+                body: JSON.stringify({formData}),
+                headers : {
+                    "Content-type" : 'application/json'
+                },
+            });
+    
+            if(!res.ok) {
+                throw new Error("Failed to update Ticket");
+            }
+        }else{
+            const res = await fetch("/api/Tickets",{
+                method : "POST",
+                body: JSON.stringify({formData}),
+                headers : {
+                    "Content-type" : 'application/json'
+                },
+            });
+    
+            if(!res.ok) {
+                throw new Error("Error Occured while submitting");
+            }
         }
 
         router.refresh();
@@ -49,7 +75,7 @@ const TicketForm = () => {
     return (
         <div className='flex justify-center '>
             <form className='flex flex-col gap-3 w-1/2' method='POST' onSubmit={handleSubmit}>
-                <h1>Create Your Ticket</h1>
+                <h1>{EDITMODE ? "Edit Your Ticket" : "Create Your Ticket"}</h1>
 
                 <label>Title</label>
                 <input id="title" name="title" type={"text"} onChange={handleChange} required={true} value={formData.title} />
@@ -98,7 +124,7 @@ const TicketForm = () => {
 
 
                 <div className='flex justify-center'>
-                    <input type={"submit"} className="btn max-w-xs" value="Create Ticket" />
+                    <input type={"submit"} className="btn max-w-xs" value={EDITMODE? "Update Ticket" : "Create Ticket"} />
                 </div>
             </form>
         </div>
